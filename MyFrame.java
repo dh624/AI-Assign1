@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class MyFrame extends JFrame implements ActionListener {
 	public JLabel leftlabel = new JLabel("Current State Info");
-	public JLabel rightlabel = new JLabel("Next State Info");
+	public JLabel rightlabel = new JLabel("Goal State Info");
 	public JLabel northlabel = new JLabel();
 	public static JTextArea leftArea = new JTextArea(25,25);
 	public static JTextArea rightArea = new JTextArea(25,25);
@@ -29,22 +29,53 @@ public class MyFrame extends JFrame implements ActionListener {
 	center.setLayout(new GridLayout(rows,cols));
 	gridpanel = new JPanel[rows][cols];
 	gridlabel = new JLabel[rows][cols];
+//	Maze maze = new Maze();
+//	maze.generateMaze();
+//	maze.writeMaze(1);
+//	System.out.println("Original maze");
+//	maze.printMaze();
+//
+//
+//	Maze maze2 = new Maze();
+//	char[][] char_maze = maze2.readMaze(1);
+//	System.out.println("New maze");
+//	maze2.printMaze();
+//
+//	System.out.println("New char maze");
+//	for(int i=0; i<maze2.getRows(); i++) {
+//		System.out.println(Arrays.toString(char_maze[i]));
+	Maze maze = new Maze();
+	char[][] temp = maze.readMaze(mazes);
 	for(int i = 0; i< rows; i++){
 		for(int j = 0; j < cols; j++){
 			gridpanel[i][j] = new JPanel();
 			gridpanel[i][j].setOpaque(true);
-			if(true){//case 1
+			if(temp[i][j] == '1'){
 				gridpanel[i][j].setBackground(Color.BLACK);
-			}
-			gridlabel[i][j] = new JLabel("A");
-			gridlabel[i][j].setForeground(Color.red);
-			gridpanel[i][j].add(gridlabel[i][j]);
-			center.add(gridpanel[i][j]);
-			if(true){//case s
+				gridlabel[i][j] = new JLabel("");
+				gridpanel[i][j].add(gridlabel[i][j]);
+				center.add(gridpanel[i][j]);
+				continue;
+			}else
+			if(temp[i][j] == 'S'){
 				start = new  State(i,j,null);
-			}
-			if(true){//case g
+				gridlabel[i][j] = new JLabel("S");
+				gridpanel[i][j].setBackground(Color.RED);
+				center.add(gridpanel[i][j]);
+				continue;
+			}else
+			if(temp[i][j] == 'G'){//case g
 				goal = new State(i,j,null);
+				gridlabel[i][j] = new JLabel("T");
+				gridpanel[i][j].setBackground(Color.GREEN);
+				gridpanel[i][j].add(gridlabel[i][j]);
+				center.add(gridpanel[i][j]);
+				continue;
+			}else{
+				gridlabel[i][j] = new JLabel("");
+				gridpanel[i][j].setBackground(Color.WHITE);
+				gridpanel[i][j].add(gridlabel[i][j]);
+				center.add(gridpanel[i][j]);
 			}
 		}
 	}
@@ -74,8 +105,13 @@ public class MyFrame extends JFrame implements ActionListener {
 					+ "g_n ="+ start.g_s + "\n"
 					+ "h_n ="+ start.h_s + "\n"
 					+ "f_n ="+ start.f_s );
+	rightArea.setText("Position  "+ goal.x + " " + goal.y + "\n"
+			+ "g_n ="+ goal.g_s + "\n"
+			+ "h_n ="+ goal.h_s + "\n"
+			+ "f_n ="+ goal.f_s );
+
+}
 	
-	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -98,10 +134,6 @@ public class MyFrame extends JFrame implements ActionListener {
 				+ "g_n ="+ tree.current.g_s + "\n"
 				+ "h_n ="+ tree.current.h_s + "\n"
 				+ "f_n ="+ tree.current.f_s );
-		rightArea.setText("Position  "+ next.x + " " + next.y + "\n"
-				+ "g_n ="+ next.g_s + "\n"
-				+ "h_n ="+ next.h_s + "\n"
-				+ "f_n ="+ next.f_s );
 		
 		
 	}

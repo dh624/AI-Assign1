@@ -43,8 +43,8 @@ public class StarterFrame extends JFrame implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(numofRows.getText().equals("") && numofCols.getText().equals("")){
-			JOptionPane.showMessageDialog(this, "The number of rows and columns are missing");
+		if(numofRows.getText().equals("") && numofCols.getText().equals("") && mazeno.getText().equals("")){
+			JOptionPane.showMessageDialog(this, "The number of rows, columns, and maze number are missing");
 			return;
 		}
 		if(numofRows.getText().equals("")){
@@ -60,9 +60,9 @@ public class StarterFrame extends JFrame implements ActionListener {
 			return;
 		}
 		try{
-	        Integer.parseInt(mazes.getText());
+	        Integer.parseInt(mazeno.getText());
 	    }catch(NumberFormatException e){
-	        JOptionPane.showMessageDialog(this, numofRows.getText() + " isnt a valid integer for the maze number");
+	        JOptionPane.showMessageDialog(this, mazeno.getText() + " isnt a valid integer for the maze number");
 	        return;
 	    }
 		try{
@@ -80,7 +80,7 @@ public class StarterFrame extends JFrame implements ActionListener {
 		int rows = Integer.parseInt(numofRows.getText());
 		int cols = Integer.parseInt(numofCols.getText());
 		int mazes = Integer.parseInt(mazeno.getText());
-		MyFrame frame = new MyFrame(rows, cols,mazes, boxoptions.getSelectedItem().toString());
+		MyFrame frame = new MyFrame(rows, cols, mazes, boxoptions.getSelectedItem().toString());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.pack();

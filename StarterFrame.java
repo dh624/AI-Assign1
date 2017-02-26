@@ -10,8 +10,10 @@ public class StarterFrame extends JFrame implements ActionListener {
 	private String[] options = {"Repeated A*", "Backward A*", "Adaptive A*"};
 	private JLabel rows = new JLabel("Enter the number of rows");
 	private JLabel cols = new JLabel("Enter the number of columns");
+	private JLabel mazes = new JLabel("Enter the maze number to load");
 	private JTextField numofRows = new JTextField(2);
 	private JTextField numofCols = new JTextField(2);
+	private JTextField mazeno = new JTextField(2);
 	private JPanel center = new JPanel();
 	private JPanel bottom = new JPanel();
 	private JPanel north = new JPanel();
@@ -22,11 +24,13 @@ public class StarterFrame extends JFrame implements ActionListener {
 	public StarterFrame(){
 		this.setTitle("Initialize Grid Size");
 		this.setLayout(new BorderLayout(10,10));
-		center.setLayout(new GridLayout(2,2));
+		center.setLayout(new GridLayout(3,3));
 			center.add(rows);
 			center.add(numofRows);
 			center.add(cols);
 			center.add(numofCols);
+			center.add(mazes);
+			center.add(mazeno);
 		bottom.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 			bottom.add(start);
 		north.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
@@ -51,6 +55,16 @@ public class StarterFrame extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, "The number of columns is missing");
 			return;
 		}
+		if(mazeno.getText().equals("")){
+			JOptionPane.showMessageDialog(this, "The maze number is missing");
+			return;
+		}
+		try{
+	        Integer.parseInt(mazes.getText());
+	    }catch(NumberFormatException e){
+	        JOptionPane.showMessageDialog(this, numofRows.getText() + " isnt a valid integer for the maze number");
+	        return;
+	    }
 		try{
 	        Integer.parseInt(numofRows.getText());
 	    }catch(NumberFormatException e){
@@ -65,7 +79,8 @@ public class StarterFrame extends JFrame implements ActionListener {
 	    }
 		int rows = Integer.parseInt(numofRows.getText());
 		int cols = Integer.parseInt(numofCols.getText());
-		MyFrame frame = new MyFrame(rows, cols, boxoptions.getSelectedItem().toString());
+		int mazes = Integer.parseInt(mazeno.getText());
+		MyFrame frame = new MyFrame(rows, cols,mazes, boxoptions.getSelectedItem().toString());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.pack();

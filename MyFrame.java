@@ -9,6 +9,7 @@ public class MyFrame extends JFrame implements ActionListener {
 	public static JTextArea leftArea = new JTextArea(25,25);
 	public static JTextArea rightArea = new JTextArea(25,25);
 	public JButton next = new JButton("Next iteration");
+	public JButton complete = new JButton("Full Algorithm");
 	public static JPanel[][] gridpanel;
 	public static JLabel[][] gridlabel;
 	public JPanel center = new JPanel();
@@ -20,7 +21,7 @@ public class MyFrame extends JFrame implements ActionListener {
 	public static String algorithm;
 	public static BFSTree tree;
 	public static Heap heap;
-	
+	public static int count;
 	
 	public MyFrame(int rows, int cols,int mazes, String algorithm){
 	this.setTitle("Demonstration of " + rows + "x" + cols + " " + algorithm + " Search");
@@ -29,21 +30,6 @@ public class MyFrame extends JFrame implements ActionListener {
 	center.setLayout(new GridLayout(rows,cols));
 	gridpanel = new JPanel[rows][cols];
 	gridlabel = new JLabel[rows][cols];
-//	Maze maze = new Maze();
-//	maze.generateMaze();
-//	maze.writeMaze(1);
-//	System.out.println("Original maze");
-//	maze.printMaze();
-//
-//
-//	Maze maze2 = new Maze();
-//	char[][] char_maze = maze2.readMaze(1);
-//	System.out.println("New maze");
-//	maze2.printMaze();
-//
-//	System.out.println("New char maze");
-//	for(int i=0; i<maze2.getRows(); i++) {
-//		System.out.println(Arrays.toString(char_maze[i]));
 	Maze maze = new Maze();
 	char[][] temp = maze.readMaze(mazes);
 	for(int i = 0; i< rows; i++){
@@ -89,6 +75,7 @@ public class MyFrame extends JFrame implements ActionListener {
 	
 	bottompanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 		bottompanel.add(next);
+		bottompanel.add(complete);
 	
 	
 	this.add(northlabel, BorderLayout.NORTH);
@@ -97,6 +84,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	this.add(rightpanel, BorderLayout.EAST);
 	this.add(center, BorderLayout.CENTER);
 	this.next.addActionListener(this);
+	this.complete.addActionListener(this);
+	count = 0;
 	heap = new Heap();
 	tree = new BFSTree();
 	tree.head = start;
@@ -114,7 +103,37 @@ public class MyFrame extends JFrame implements ActionListener {
 	
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
+		boolean isDone = false;
+		if(e.getActionCommand().equals("Full Algorithm")){
+			while(!isDone){
+				tree.explorebottom();
+				tree.exploreleft();
+				tree.exploreright();
+				tree.exporetop();
+				tree.updateCurrent();
+				if(tree.current == null){
+					JOptionPane.showMessageDialog(this, "No Solution");
+					isDone = true;
+					return;
+				}
+				if(tree.current.x == goal.x && tree.current.y== goal.y){
+					JOptionPane.showMessageDialog(this, "Path Found \n Expanded Cells: " + count);
+					State temp = tree.current;
+					while(temp.parentState != null){
+						gridpanel[temp.x][temp.y].setBackground(Color.PINK);
+						temp = temp.parentState;
+					}
+					isDone = true;
+					return;
+				}
+				if(next == null){
+					JOptionPane.showMessageDialog(this, "No Solution");
+					isDone = true;
+					return;
+				}
+			}
+		}
 		tree.explorebottom();
 		tree.exploreleft();
 		tree.exploreright();
@@ -125,7 +144,12 @@ public class MyFrame extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, "No Solution");
 		}
 		if(tree.current.x == goal.x && tree.current.y== goal.y){
-			JOptionPane.showMessageDialog(this, "Path Found");
+			JOptionPane.showMessageDialog(this, "Path Found \n Expanded Cells: " + count);
+			State temp = tree.current;
+			while(temp.parentState != null){
+				gridpanel[temp.x][temp.y].setBackground(Color.PINK);
+				temp = temp.parentState;
+			}
 		}
 		if(next == null){
 			JOptionPane.showMessageDialog(this, "No Solution");

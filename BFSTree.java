@@ -36,6 +36,7 @@ public void exploreleft(){
 			temp.next = newstate;
 		}
 		MyFrame.heap.insert(newstate);
+		MyFrame.count++;
 	}
 	return;
 }
@@ -62,6 +63,7 @@ public void exploreright(){
 			temp.next = newstate;
 		}
 		MyFrame.heap.insert(newstate);
+		MyFrame.count++;
 	}
 	return;	
 }
@@ -88,6 +90,7 @@ public void exporetop(){
 			temp.next = newstate;
 		}
 		MyFrame.heap.insert(newstate);
+		MyFrame.count++;
 	}
 	return;
 }
@@ -114,6 +117,7 @@ public void explorebottom(){
 			temp.next = newstate;
 		}
 		MyFrame.heap.insert(newstate);
+		MyFrame.count++;
 	}
 	return;
 }

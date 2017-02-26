@@ -40,7 +40,10 @@ public class Heap {
 	}
 
 	private boolean compareStates(State a, State b) {
-		return (a.f_s - a.g_s) > (b.f_s - b.g_s);
+//		if(a.f_s == b.f_s) {
+//			return (a.f_s - a.g_s) > (b.f_s - b.g_s);
+//		}
+		return (a.f_s) > (b.f_s);
 	}
 
 	public int size() {

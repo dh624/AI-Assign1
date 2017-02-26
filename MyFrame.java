@@ -54,7 +54,9 @@ public class MyFrame extends JFrame implements ActionListener {
 	this.add(leftpanel, BorderLayout.WEST);
 	this.add(rightpanel, BorderLayout.EAST);
 	this.add(center, BorderLayout.CENTER);
-
+	//(int) Math.floor(Math.random()*101
+	int x = (int)Math.floor(Math.random()*101);
+	//start = new State()
 	}
 	
 	@Override

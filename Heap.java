@@ -32,7 +32,7 @@ public class Heap {
 
 	private int parent(int index) {
 		int p = (index-1)/2;
-		if(p == 0) {
+		if(p < 0) {
 			return -1;
 		} else {
 			return p;
@@ -40,9 +40,9 @@ public class Heap {
 	}
 
 	private boolean compareStates(State a, State b) {
-//		if(a.f_s == b.f_s) {
-//			return (a.f_s - a.g_s) > (b.f_s - b.g_s);
-//		}
+		if(a.f_s == b.f_s) {
+			return (a.f_s - a.g_s) < (b.f_s - b.g_s); //pick smaller g if > otherwise its larger g
+		}
 		return (a.f_s) > (b.f_s);
 	}
 
@@ -86,7 +86,7 @@ public class Heap {
 		if(child_index>=0 && child_index2>=0 && compareStates(this.heap.get(child_index), this.heap.get(child_index2)) ) {
 			child_index = child_index2;
 		}
-		if(child_index>0) {
+		if(child_index>0 && compareStates(this.heap.get(index), this.heap.get(child_index))) {
 			State temp = this.heap.get(index);
 			State child = this.heap.get(child_index);
 			this.heap.set(index, child);

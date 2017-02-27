@@ -10,6 +10,16 @@ public class Main {
 		 frame.pack();
 		 frame.setLocationRelativeTo(null);
 		System.out.printf("Working directory" + System.getProperty("user.dir"));
+//		Heap heap = new Heap();
+//		for(int i = 20; i> 0; i--){
+//			State s = new State(1,1,null);
+//			s.f_s = i;
+//			heap.insert(s);
+//		}
+//		for(int i = 0;i< 20; i++){
+//			State s = heap.extractMin();
+//			System.out.println(s.f_s);
+//		}
 //		Maze maze = new Maze();
 //		maze.generateMaze();
 //		maze.writeMaze(1);

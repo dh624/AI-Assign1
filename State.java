@@ -22,11 +22,10 @@ public class State {
 		if(prev == null){
 			return;
 		}
-		if(MyFrame.algorithm.equals("Repeated A*")){
+		if(MyFrame.algorithm.equals("Repeated A*") || MyFrame.algorithm.equals("Backward A*")){
 			this.g_s = prev.g_s +1;
 			this.h_s = Math.abs((MyFrame.goal.x - x)) +Math.abs((MyFrame.goal.y - y));
 			this.f_s =g_s +h_s;
-		}else if(MyFrame.algorithm.equals("Backward A*")){
 			
 		}else if(MyFrame.algorithm.equals("Adaptive A*")){
 			

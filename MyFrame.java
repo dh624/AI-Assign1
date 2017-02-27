@@ -21,7 +21,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	public static String algorithm;
 	public static BFSTree tree;
 	public static Heap heap;
-	public static int count;
+	public static int count; //cells expanded
+	public static int moves; //iterations
+	public static int pathlength;
+	public static int adaptiveH;
 	
 	public MyFrame(int rows, int cols,int mazes, String algorithm){
 	this.setTitle("Demonstration of " + rows + "x" + cols + " " + algorithm + " Search");
@@ -86,9 +89,19 @@ public class MyFrame extends JFrame implements ActionListener {
 	this.next.addActionListener(this);
 	this.complete.addActionListener(this);
 	count = 0;
+	moves = 0;
+	pathlength =0;
+	adaptiveH = 0;
 	heap = new Heap();
 	tree = new BFSTree();
+	if(algorithm.equals("Backward A*")){
+		System.out.println("backward case\n");
+		State tempState = start;
+		start = goal;
+		goal = tempState;
+	}
 	tree.head = start;
+	goal.f_s = Math.abs((goal.x - start.x)) +Math.abs((goal.y - start.y));
 	tree.current = start;
 	leftArea.setText("Position  "+ start.x + " " + start.y + "\n"
 					+ "g_n ="+ start.g_s + "\n"
@@ -107,31 +120,34 @@ public class MyFrame extends JFrame implements ActionListener {
 		boolean isDone = false;
 		if(e.getActionCommand().equals("Full Algorithm")){
 			while(!isDone){
-				tree.explorebottom();
-				tree.exploreleft();
-				tree.exploreright();
-				tree.exporetop();
-				tree.updateCurrent();
-				if(tree.current == null){
-					JOptionPane.showMessageDialog(this, "No Solution");
-					isDone = true;
-					return;
-				}
-				if(tree.current.x == goal.x && tree.current.y== goal.y){
-					JOptionPane.showMessageDialog(this, "Path Found \n Expanded Cells: " + count);
-					State temp = tree.current;
-					while(temp.parentState != null){
-						gridpanel[temp.x][temp.y].setBackground(Color.PINK);
-						temp = temp.parentState;
+					moves++;
+					tree.explorebottom();
+					tree.exploreleft();
+					tree.exploreright();
+					tree.exporetop();
+					tree.updateCurrent();
+					if(tree.current == null){
+						JOptionPane.showMessageDialog(this, "No Solution");
+						isDone = true;
+						return;
 					}
-					isDone = true;
-					return;
-				}
-				if(next == null){
-					JOptionPane.showMessageDialog(this, "No Solution");
-					isDone = true;
-					return;
-				}
+					if(tree.current.x == goal.x && tree.current.y== goal.y){
+						State temp = tree.current;
+						while(temp.parentState != null){
+							pathlength++;
+							gridpanel[temp.x][temp.y].setBackground(Color.PINK);
+							temp = temp.parentState;
+						}
+						JOptionPane.showMessageDialog(this, "Path Found \nExpanded Cells: " + count + "\n" + "Number of Moves: " + moves + "\n"+ "Path Length: " + pathlength );
+						isDone = true;
+						return;
+					}
+					if(next == null){
+						JOptionPane.showMessageDialog(this, "No Solution");
+						isDone = true;
+						return;
+					}
+					
 			}
 		}
 		tree.explorebottom();

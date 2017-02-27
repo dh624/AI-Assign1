@@ -41,7 +41,7 @@ public void exploreleft(){
 	return;
 }
 public void exploreright(){
-	if(current.x+1 < 0){
+	if(current.x+1 > 100){
 		return; //hit a boundary
 	}
 	if(MyFrame.gridpanel[current.x+1][current.y].getBackground().equals(Color.BLACK)){
@@ -68,7 +68,7 @@ public void exploreright(){
 	return;	
 }
 public void exporetop(){
-	if(current.y +1 < 0){
+	if(current.y +1 > 100){
 		return; //hit a boundary
 	}
 	if(MyFrame.gridpanel[current.x][current.y+1].getBackground().equals(Color.BLACK)){
